@@ -95,13 +95,13 @@ const StockForm = ({ onSubmit, initialData, onCancel }: StockFormProps) => {
 
   const handleSubmit = (values: StockFormValues) => {
     if (initialData) {
-      onSubmit({ ...values, id: initialData.id });
+      onSubmit({ ...values, id: initialData.id } as StockItem);
       toast({
         title: "Stock Updated",
         description: "Stock item has been updated successfully.",
       });
     } else {
-      onSubmit(values);
+      onSubmit(values as Omit<StockItem, "id">);
       toast({
         title: "Stock Added",
         description: "New stock item has been added successfully.",
