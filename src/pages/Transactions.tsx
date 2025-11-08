@@ -96,6 +96,17 @@ const Transactions = () => {
     fetchTransactions();
   };
 
+  // Calculate summary statistics
+  const totalPurchases = transactions
+    .filter((t) => t.transaction_type === "purchase")
+    .reduce((sum, t) => sum + Number(t.total_amount), 0);
+
+  const totalSales = transactions
+    .filter((t) => t.transaction_type === "sale")
+    .reduce((sum, t) => sum + Number(t.total_amount), 0);
+
+  const totalTransactions = transactions.length;
+
   return (
     <div className="flex min-h-screen bg-background">
       <DashboardSidebar />
@@ -108,6 +119,22 @@ const Transactions = () => {
               <Plus className="h-5 w-5" />
               Add Transaction
             </Button>
+          </div>
+
+          {/* Summary Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="bg-card p-4 rounded-lg border shadow-sm">
+              <p className="text-sm text-muted-foreground">Total Transactions</p>
+              <p className="text-2xl font-bold text-foreground">{totalTransactions}</p>
+            </div>
+            <div className="bg-card p-4 rounded-lg border shadow-sm">
+              <p className="text-sm text-muted-foreground">Total Purchases</p>
+              <p className="text-2xl font-bold text-success">₹{totalPurchases.toFixed(2)}</p>
+            </div>
+            <div className="bg-card p-4 rounded-lg border shadow-sm">
+              <p className="text-sm text-muted-foreground">Total Sales</p>
+              <p className="text-2xl font-bold text-info">₹{totalSales.toFixed(2)}</p>
+            </div>
           </div>
 
           <TransactionTable
