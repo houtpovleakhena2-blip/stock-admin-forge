@@ -23,9 +23,21 @@ import { useToast } from "@/hooks/use-toast";
 import { UserWithRole } from "@/pages/Users";
 
 const userSchema = z.object({
-  full_name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters").optional(),
+  full_name: z.string()
+    .min(2, "Name must be at least 2 characters")
+    .max(100, "Name must be less than 100 characters")
+    .trim(),
+  email: z.string()
+    .email("Invalid email address")
+    .max(255, "Email must be less than 255 characters")
+    .trim()
+    .toLowerCase(),
+  password: z.string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number")
+    .optional(),
   role: z.enum(["admin", "manager", "office_manager", "employee"]),
 });
 
@@ -91,13 +103,20 @@ const UserForm = ({ user, onSuccess, onCancel }: UserFormProps) => {
           email: values.email,
           password: values.password,
           options: {
+            emailRedirectTo: `${window.location.origin}/`,
             data: {
               full_name: values.full_name,
             },
           },
         });
 
-        if (authError) throw authError;
+        if (authError) {
+          if (authError.message.includes("already registered")) {
+            throw new Error("A user with this email already exists");
+          }
+          throw authError;
+        }
+        
         if (!authData.user) throw new Error("Failed to create user");
 
         // Create profile
@@ -183,11 +202,14 @@ const UserForm = ({ user, onSuccess, onCancel }: UserFormProps) => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Password *</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="••••••••" {...field} />
                 </FormControl>
                 <FormMessage />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Must be 8+ characters with uppercase, lowercase, and number
+                </p>
               </FormItem>
             )}
           />
