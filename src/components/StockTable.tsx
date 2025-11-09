@@ -111,7 +111,7 @@ const StockTable = ({ items, onEdit, onDelete }: StockTableProps) => {
                       {item.quantity}
                     </span>
                   </TableCell>
-                  <TableCell>₹{item.unitPrice.toLocaleString()}</TableCell>
+                  <TableCell>${item.unitPrice.toLocaleString()}</TableCell>
                   <TableCell>{item.supplier}</TableCell>
                   <TableCell>{item.minStock}</TableCell>
                   <TableCell>

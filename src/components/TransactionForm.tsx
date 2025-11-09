@@ -206,7 +206,7 @@ const TransactionForm = ({ transaction, onSuccess, onCancel }: TransactionFormPr
             name="unit_price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Unit Price (₹)</FormLabel>
+                <FormLabel>Unit Price ($)</FormLabel>
                 <FormControl>
                   <Input type="number" step="0.01" placeholder="0.00" {...field} />
                 </FormControl>
@@ -218,7 +218,7 @@ const TransactionForm = ({ transaction, onSuccess, onCancel }: TransactionFormPr
 
         <div className="rounded-lg bg-muted p-4">
           <p className="text-sm font-medium">
-            Total Amount: <span className="text-lg text-primary">₹{totalAmount.toFixed(2)}</span>
+            Total Amount: <span className="text-lg text-primary">${totalAmount.toFixed(2)}</span>
           </p>
         </div>
 

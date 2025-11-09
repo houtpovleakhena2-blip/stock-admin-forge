@@ -36,7 +36,7 @@ const Index = () => {
             />
             <SummaryCard
               title="Total Stock Value"
-              value="₹385,231.00"
+              value="$385,231.00"
               icon={DollarSign}
               variant="info"
             />

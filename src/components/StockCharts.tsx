@@ -63,7 +63,7 @@ const StockCharts = ({ filters }: StockChartsProps) => {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={(entry) => `${entry.name}: ₹${(entry.value / 1000).toFixed(0)}K`}
+                label={(entry) => `${entry.name}: $${(entry.value / 1000).toFixed(0)}K`}
                 outerRadius={100}
                 fill="#8884d8"
                 dataKey="value"
@@ -73,7 +73,7 @@ const StockCharts = ({ filters }: StockChartsProps) => {
                 ))}
               </Pie>
               <Tooltip
-                formatter={(value: number) => `₹${value.toLocaleString()}`}
+                formatter={(value: number) => `$${value.toLocaleString()}`}
               />
             </PieChart>
           </ResponsiveContainer>
@@ -115,7 +115,7 @@ const StockCharts = ({ filters }: StockChartsProps) => {
               dataKey="stockValue"
               stroke="#2A6EBB"
               strokeWidth={2}
-              name="Stock Value (₹)"
+              name="Stock Value ($)"
             />
             <Line
               yAxisId="right"

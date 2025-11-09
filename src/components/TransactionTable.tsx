@@ -110,10 +110,10 @@ const TransactionTable = ({ transactions, loading, onEdit, onDelete }: Transacti
                   <TableCell>{transaction.category}</TableCell>
                   <TableCell className="text-right">{transaction.quantity}</TableCell>
                   <TableCell className="text-right">
-                    ₹{transaction.unit_price.toFixed(2)}
+                    ${transaction.unit_price.toFixed(2)}
                   </TableCell>
                   <TableCell className="text-right font-medium">
-                    ₹{transaction.total_amount.toFixed(2)}
+                    ${transaction.total_amount.toFixed(2)}
                   </TableCell>
                   <TableCell>
                     {new Date(transaction.created_at).toLocaleDateString()}

@@ -129,11 +129,11 @@ const Transactions = () => {
             </div>
             <div className="bg-card p-4 rounded-lg border shadow-sm">
               <p className="text-sm text-muted-foreground">Total Purchases</p>
-              <p className="text-2xl font-bold text-success">₹{totalPurchases.toFixed(2)}</p>
+              <p className="text-2xl font-bold text-success">${totalPurchases.toFixed(2)}</p>
             </div>
             <div className="bg-card p-4 rounded-lg border shadow-sm">
               <p className="text-sm text-muted-foreground">Total Sales</p>
-              <p className="text-2xl font-bold text-info">₹{totalSales.toFixed(2)}</p>
+              <p className="text-2xl font-bold text-info">${totalSales.toFixed(2)}</p>
             </div>
           </div>
 
