@@ -154,7 +154,7 @@ const Users = () => {
                 Create and manage user accounts with role-based access control
               </p>
             </div>
-            {currentUserRole === "admin" && (
+            {(currentUserRole === "admin" || currentUserRole === "manager") && (
               <Button onClick={handleAddUser} className="gap-2">
                 <UserPlus className="h-5 w-5" />
                 Add User
@@ -162,11 +162,11 @@ const Users = () => {
             )}
           </div>
 
-          {currentUserRole !== "admin" && (
+          {currentUserRole !== "admin" && currentUserRole !== "manager" && (
             <Alert className="mb-6">
               <Shield className="h-4 w-4" />
               <AlertDescription>
-                You need admin privileges to add or modify users. Contact your administrator for assistance.
+                You need admin or manager privileges to add or modify users. Contact your administrator for assistance.
               </AlertDescription>
             </Alert>
           )}
