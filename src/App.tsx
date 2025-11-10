@@ -9,6 +9,7 @@ import Reports from "./pages/Reports";
 import Users from "./pages/Users";
 import Transactions from "./pages/Transactions";
 import ChangePassword from "./pages/ChangePassword";
+import Logout from "./pages/Logout";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/users" element={<Users />} />
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/password" element={<ChangePassword />} />
+          <Route path="/logout" element={<Logout />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
