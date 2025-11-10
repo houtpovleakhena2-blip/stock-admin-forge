@@ -3,11 +3,13 @@ import DashboardHeader from "@/components/DashboardHeader";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import UserForm from "@/components/UserForm";
 import UserTable from "@/components/UserTable";
+import RoleHierarchyCard from "@/components/RoleHierarchyCard";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export interface UserWithRole {
   id: string;
@@ -22,11 +24,30 @@ const Users = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<UserWithRole | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
+    fetchCurrentUserRole();
     fetchUsers();
   }, []);
+
+  const fetchCurrentUserRole = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: roleData } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", user.id)
+          .single();
+        
+        setCurrentUserRole(roleData?.role || null);
+      }
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+    }
+  };
 
   const fetchUsers = async () => {
     try {
@@ -127,12 +148,30 @@ const Users = () => {
         <DashboardHeader />
         <main className="p-6">
           <div className="mb-6 flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-foreground">Manage Users</h1>
-            <Button onClick={handleAddUser} className="gap-2">
-              <UserPlus className="h-5 w-5" />
-              Add User
-            </Button>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Manage Users</h1>
+              <p className="text-sm text-muted-foreground mt-1">
+                Create and manage user accounts with role-based access control
+              </p>
+            </div>
+            {currentUserRole === "admin" && (
+              <Button onClick={handleAddUser} className="gap-2">
+                <UserPlus className="h-5 w-5" />
+                Add User
+              </Button>
+            )}
           </div>
+
+          {currentUserRole !== "admin" && (
+            <Alert className="mb-6">
+              <Shield className="h-4 w-4" />
+              <AlertDescription>
+                You need admin privileges to add or modify users. Contact your administrator for assistance.
+              </AlertDescription>
+            </Alert>
+          )}
+
+          <RoleHierarchyCard />
 
           <UserTable
             users={users}
